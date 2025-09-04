@@ -35,11 +35,11 @@
 
     @keyframes flyForward {
       0% {
-        transform: scale(1) translateZ(0);
+        transform: scale(1);
         opacity: 1;
       }
       100% {
-        transform: scale(20) translateZ(1000px);
+        transform: scale(20);
         opacity: 0;
       }
     }
@@ -59,10 +59,22 @@
       transform: translate(-50%, -50%);
       font-size: 2rem;
       text-align: center;
-      white-space: pre-line;
+      white-space: nowrap; /* keep all text on one line */
       display: none;
       z-index: 20;
       pointer-events: none;
+    }
+
+    /* Blinking cursor effect */
+    #creepyText::after {
+      content: '|';
+      animation: blink 0.8s infinite;
+      margin-left: 5px;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.01%, 100% { opacity: 0; }
     }
   </style>
 </head>
@@ -70,25 +82,18 @@
   <button id="startBtn">Click Here</button>
 
   <div id="videoContainer">
-    <div style="padding:77.21% 0 0 0;position:relative;">
-      <iframe src="https://player.vimeo.com/video/1115988068?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&autoplay=1" 
-        frameborder="0" 
-        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-        title="???"></iframe>
-    </div>
-    <div id="creepyText">
-      I̵̛̝̜͑̅̒̑ ̵̢̡̝͇͚̻͚̜͓̔̍̓̊̈́͑̎͊͗K̷̡̝̹̠̤̳͙͙̻͎̜̱̎̾͂̓̑́̂̆̋̈͋͠͝ͅn̴̢̘̪̗͓͓̖̖͙̈͌͛̏̎̉̈́̄̃̀͒ǫ̵̨̮̼͎̰̬͇̟̗͓͓̝̲̅͌̎͆̒͌̈́͗̽͛̀̾̉͒ͩ̚w̴̡̡̥̭͓͙̘͈͈̮̗̏ 
-      Y̵̢̨͔̖̹͍̪͉͙̭̏̓̆͌͑͠͝ͅớ̴̥͖̍̇͠ṳ̴͓͙̩̘͕́͆̐̊̄̇̊̋̌̿̕͘͝.̵̧̢̩̪̟̝͇̟̦̆̽͗̑̀̔̌̑͋͠
-    </div>
-    <script src="https://player.vimeo.com/api/player.js"></script>
+    <div id="videoFrame"></div>
+    <div id="creepyText"></div>
   </div>
 
   <script>
     const btn = document.getElementById("startBtn");
     const videoContainer = document.getElementById("videoContainer");
+    const videoFrame = document.getElementById("videoFrame");
     const creepyText = document.getElementById("creepyText");
+
+    // full creepy message (all on one line)
+    const fullMessage = "I̵̛̝̜͑̅̒̑ ̵̢̡̝͇͚̻͚̜͓̔̍̓̊̈́͑̎͊͗K̷̡̝̹̠̤̳͙͙̻͎̜̱̎̾͂̓̑́̂̆̋̈͋͠͝ͅn̴̢̘̪̗͓͓̖͖͙̈͌͛̏̎̉̈́̄̃̀͒ǫ̵̨̮̼͎̰̬͇̟̗͓͓̝̲̅͌̎͆̒͌̈́͗̽͛̀̾̉͒ͩ̚w̴̡̡̥̭͓͙̘͈͈̮̗̏ Y̵̢̨͔̖̹͍̪͉͙̭̏̓̆͌͑͠͝ͅớ̴̥͖̍̇͠ṳ̴͓͙̩̘͕́͆̐̊̄̇̊̋̌̿̕͘͝.̵̧̢̩̪̟̝͇̟̦̆̽͗̑̀̔̌̑͋͠";
 
     btn.addEventListener("click", () => {
       btn.classList.add("fly-forward");
@@ -97,17 +102,47 @@
         btn.style.display = "none";
         videoContainer.style.display = "block";
 
-        // Show creepy text on top of the video while it plays
+        // inject the video only after button click
+        videoFrame.innerHTML = `
+          <div style="padding:77.21% 0 0 0;position:relative;">
+            <iframe src="https://player.vimeo.com/video/1115988068?badge=0&amp;autopause=0&amp;autoplay=1" 
+              frameborder="0" 
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin" 
+              style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+              title="???"></iframe>
+          </div>
+          <script src="https://player.vimeo.com/api/player.js"><\/script>
+        `;
+
+        // after 8s, start typing effect
         setTimeout(() => {
           creepyText.style.display = "block";
+          typeText(fullMessage, creepyText, () => {
+            // after typing finishes, wait 3s then redirect
+            setTimeout(() => {
+              window.location.href = "https://www.roblox.com/User.aspx?lD=111179482";
+            }, 3000);
+          });
+        }, 8000);
 
-          // Redirect after a few seconds
-          setTimeout(() => {
-            window.location.href = "https://www.roblox.com/User.aspx?lD=111179482";
-          }, 4000);
-        }, 8000); // text appears 8s after video starts
-      }, 500);
+      }, 500); // wait for button animation
     });
+
+    // typewriter effect function
+    function typeText(text, element, callback) {
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.textContent = text.substring(0, i + 1);
+          i++;
+          setTimeout(type, 50); // speed of typing (ms per character)
+        } else {
+          if (callback) callback();
+        }
+      }
+      type();
+    }
   </script>
 </body>
 </html>
