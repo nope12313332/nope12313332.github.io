@@ -1,72 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ominous Depths</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Courier New', monospace;
-            background-color: #000000;
-            color: #ff0000;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        video {
-            display: none;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-        }
-        .scary-button {
-            background-color: #800000;
-            color: #ffffff;
-            border: 2px solid #ff0000;
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.5s;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-        }
-        .scary-button:hover {
-            background-color: #ff0000;
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.8);
-            transform: scale(1.1);
-        }
-        @media (max-width: 768px) {
-            .scary-button {
-                font-size: 1.2rem;
-                padding: 12px 24px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Secret Page</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    #startBtn {
+      background: red;
+      color: white;
+      font-size: 2rem;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.1s ease-out;
+      z-index: 10;
+      position: relative;
+    }
+
+    .fly-forward {
+      animation: flyForward 0.5s forwards;
+    }
+
+    @keyframes flyForward {
+      0% {
+        transform: scale(1) translateZ(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(20) translateZ(1000px);
+        opacity: 0;
+      }
+    }
+
+    #videoContainer {
+      display: none;
+      width: 80%;
+      max-width: 900px;
+      margin: auto;
+      position: relative;
+    }
+
+    #creepyText {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      text-align: center;
+      white-space: pre-line;
+      display: none;
+      z-index: 20;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
-    <button class="scary-button" id="scaryButton">Click this lol</button>
-    <video id="scaryVideo" src="https://geo.dailymotion.com/player.html?video=k1QKnmlSzPoqAHDMK9Y" unmuted></video> <!-- Placeholder video URL; replace with actual scary video file if needed (ensure it's short for demo) -->
+  <button id="startBtn">Click Here</button>
 
-    <script>
-        const button = document.getElementById('scaryButton');
-        const video = document.getElementById('scaryVideo');
+  <div id="videoContainer">
+    <div style="padding:77.21% 0 0 0;position:relative;">
+      <iframe src="https://player.vimeo.com/video/1115988068?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&autoplay=1" 
+        frameborder="0" 
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+        title="???"></iframe>
+    </div>
+    <div id="creepyText">
+      I̵̛̝̜͑̅̒̑ ̵̢̡̝͇͚̻͚̜͓̔̍̓̊̈́͑̎͊͗K̷̡̝̹̠̤̳͙͙̻͎̜̱̎̾͂̓̑́̂̆̋̈͋͠͝ͅn̴̢̘̪̗͓͓̖̖͙̈͌͛̏̎̉̈́̄̃̀͒ǫ̵̨̮̼͎̰̬͇̟̗͓͓̝̲̅͌̎͆̒͌̈́͗̽͛̀̾̉͒ͩ̚w̴̡̡̥̭͓͙̘͈͈̮̗̏ 
+      Y̵̢̨͔̖̹͍̪͉͙̭̏̓̆͌͑͠͝ͅớ̴̥͖̍̇͠ṳ̴͓͙̩̘͕́͆̐̊̄̇̊̋̌̿̕͘͝.̵̧̢̩̪̟̝͇̟̦̆̽͗̑̀̔̌̑͋͠
+    </div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
+  </div>
 
-        button.addEventListener('click', function() {
-            button.style.display = 'none'; // Hide button after click
-            video.style.display = 'block';
-            video.play();
-        });
+  <script>
+    const btn = document.getElementById("startBtn");
+    const videoContainer = document.getElementById("videoContainer");
+    const creepyText = document.getElementById("creepyText");
 
-        video.addEventListener('ended', function() {
-            // Redirect to placeholder webpage after video ends
-            window.location.href = 'https://www.roblox.com/User.aspx?lD=1018107170'; // Placeholder URL - replace with actual site
-        });
-    </script>
+    btn.addEventListener("click", () => {
+      btn.classList.add("fly-forward");
+
+      setTimeout(() => {
+        btn.style.display = "none";
+        videoContainer.style.display = "block";
+
+        // Show creepy text on top of the video while it plays
+        setTimeout(() => {
+          creepyText.style.display = "block";
+
+          // Redirect after a few seconds
+          setTimeout(() => {
+            window.location.href = "https://www.roblox.com/User.aspx?lD=111179482";
+          }, 4000);
+        }, 8000); // text appears 8s after video starts
+      }, 500);
+    });
+  </script>
 </body>
 </html>
-</content>
-</create_file>
