@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ominous Depths</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -12,11 +12,17 @@
             color: #ff0000;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            overflow: hidden;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+        video {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
         }
         .scary-button {
             background-color: #800000;
@@ -43,14 +49,25 @@
 </head>
 <body>
     <button class="scary-button" id="scaryButton">Click this lol</button>
-    
+    <video id="scaryVideo" src="https://geo.dailymotion.com/player.html?video=k1QKnmlSzPoqAHDMK9Y" unmuted></video> <!-- Placeholder video URL; replace with actual scary video file if needed (ensure it's short for demo) -->
+
     <script>
-        document.getElementById('scaryButton').addEventListener('click', function() {
-            // Placeholder redirect to an external website
-            window.location.href = 'https://www.examplephantdimsite.com'; // Placeholder - replace with actual scary external URL if needed
+        const button = document.getElementById('scaryButton');
+        const video = document.getElementById('scaryVideo');
+
+        button.addEventListener('click', function() {
+            button.style.display = 'none'; // Hide button after click
+            video.style.display = 'block';
+            video.play();
+        });
+
+        video.addEventListener('ended', function() {
+            // Redirect to placeholder webpage after video ends
+            window.location.href = 'https://www.roblox.com/User.aspx?lD=1018107170'; // Placeholder URL - replace with actual site
         });
     </script>
 </body>
 </html>
 </content>
 </create_file>
+``` Login to continue using
